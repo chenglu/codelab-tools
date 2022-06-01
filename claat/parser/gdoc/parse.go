@@ -32,7 +32,7 @@ import (
 	"github.com/googlecodelabs/tools/claat/parser"
 	"github.com/googlecodelabs/tools/claat/types"
 	"github.com/googlecodelabs/tools/claat/util"
-        "github.com/stoewer/go-strcase"
+	"github.com/stoewer/go-strcase"
 )
 
 func init() {
@@ -80,7 +80,7 @@ const (
 	commentPrefix = "#cmnt"
 
 	// the google.com redirector service
-	redirectorPrefix = "https://www.google.com/url?q="
+	redirectorPrefix = "https://urls.g.forms.cn/url?q="
 )
 
 var (
