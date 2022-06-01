@@ -14,6 +14,14 @@ var IframeAllowlist = []string{
 	"observablehq.com",
 	"repl.it",
 	"web.dev",
+	"flutter.cn",
+	"flutter-io.cn",
+	"dart.cn",
+	"dartpad.cn",
+	"tf.wiki",
+	"angular.cn",
+	"codelabs.cn",
+	"google.cn",
 }
 
 // NewIframeNode creates a new embedded iframe.
