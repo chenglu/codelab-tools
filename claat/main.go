@@ -47,7 +47,7 @@ var (
 	globalGA     = flag.String("ga", "UA-49880327-14", "global Google Analytics account")
 	output       = flag.String("o", ".", "output directory or '-' for stdout")
 	passMetadata = flag.String("pass_metadata", "", "Metadata fields to pass through to the output. Comma-delimited list of field names.")
-	prefix       = flag.String("prefix", "https://storage.googleapis.com", "URL prefix for html format")
+	prefix       = flag.String("prefix", "https://files.flutter-io.cn", "URL prefix for html format")
 	tmplout      = flag.String("f", "html", "output format")
 )
 
