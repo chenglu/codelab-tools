@@ -74,6 +74,7 @@ const COMPLETED_ATTR = 'completed';
 const LABEL_ATTR = 'label';
 
 /** @const {string} */
+/** @suppress {unusedLocalVariables} */
 const DONT_SET_HISTORY_ATTR = 'dsh';
 
 /** @const {string} */
