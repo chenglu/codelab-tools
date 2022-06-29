@@ -30,7 +30,7 @@ $webIcon: 'web.svg';
 
     .#{$name}-icon {
       @if $icon {
-        background-image: url(//files.flutter-io.cn/codelab-elements/landing/images/icons/#{$icon});
+        background-image: url(//static.codelabs.cn/codelab-elements/landing/images/icons/#{$icon});
       } @else {
         opacity: 0;
       }
