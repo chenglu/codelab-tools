@@ -29,11 +29,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/googlecodelabs/tools/claat/fetch/drive/auth"
-	"github.com/googlecodelabs/tools/claat/nodes"
-	"github.com/googlecodelabs/tools/claat/parser"
-	"github.com/googlecodelabs/tools/claat/types"
-	"github.com/googlecodelabs/tools/claat/util"
+	"github.com/codelabs-cn/codelab-tools/claat/fetch/drive/auth"
+	"github.com/codelabs-cn/codelab-tools/claat/nodes"
+	"github.com/codelabs-cn/codelab-tools/claat/parser"
+	"github.com/codelabs-cn/codelab-tools/claat/types"
+	"github.com/codelabs-cn/codelab-tools/claat/util"
 )
 
 const (

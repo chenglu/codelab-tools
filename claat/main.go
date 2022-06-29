@@ -29,11 +29,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/googlecodelabs/tools/claat/cmd"
+	"github.com/codelabs-cn/codelab-tools/claat/cmd"
 
 	// allow parsers to register themselves
-	_ "github.com/googlecodelabs/tools/claat/parser/gdoc"
-	_ "github.com/googlecodelabs/tools/claat/parser/md"
+	_ "github.com/codelabs-cn/codelab-tools/claat/parser/gdoc"
+	_ "github.com/codelabs-cn/codelab-tools/claat/parser/md"
 )
 
 var (
@@ -155,7 +155,7 @@ The following formats are built-in:
 - offline (plain HTML markup for offline consumption)
 
 Note that the built-in templates of the formats are not guaranteed to be stable.
-They can be found in https://github.com/googlecodelabs/tools/tree/master/claat/render.
+They can be found in https://github.com/codelabs-cn/codelab-tools/tree/master/claat/render.
 Please avoid using default templates in production. Use your own copies.
 
 To use a custom format, specify a local file path to a Go template file.

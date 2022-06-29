@@ -22,11 +22,11 @@ package cmd
 import (
 	"path/filepath"
 
-	"github.com/googlecodelabs/tools/claat/types"
+	"github.com/codelabs-cn/codelab-tools/claat/types"
 
 	// allow parsers to register themselves
-	_ "github.com/googlecodelabs/tools/claat/parser/gdoc"
-	_ "github.com/googlecodelabs/tools/claat/parser/md"
+	_ "github.com/codelabs-cn/codelab-tools/claat/parser/gdoc"
+	_ "github.com/codelabs-cn/codelab-tools/claat/parser/md"
 )
 
 const (

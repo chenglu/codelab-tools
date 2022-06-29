@@ -10,11 +10,13 @@ For more info run `claat help`.
 
 The easiest way is to download pre-compiled binary.
 The binaries, as well as their checksums are available at the
-[Releases page](https://github.com/googlecodelabs/tools/releases/latest).
+[Releases page](https://github.com/codelabs-cn/codelab-tools/releases/latest).
 
 Alternatively, if you have [Go installed](https://golang.org/doc/install):
 
-    go install github.com/googlecodelabs/tools/claat@latest
+    go install github.com/codelabs-cn/codelab-tools/claat@latest
+
+    go get
 
 If none of the above works, compile the tool from source following Dev workflow
 instructions below.

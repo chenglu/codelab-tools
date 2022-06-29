@@ -26,10 +26,10 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/googlecodelabs/tools/claat/fetch"
-	"github.com/googlecodelabs/tools/claat/render"
-	"github.com/googlecodelabs/tools/claat/types"
-	"github.com/googlecodelabs/tools/claat/util"
+	"github.com/codelabs-cn/codelab-tools/claat/fetch"
+	"github.com/codelabs-cn/codelab-tools/claat/render"
+	"github.com/codelabs-cn/codelab-tools/claat/types"
+	"github.com/codelabs-cn/codelab-tools/claat/util"
 )
 
 // Options type to make the CmdExport signature succinct.
