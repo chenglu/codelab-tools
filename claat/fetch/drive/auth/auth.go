@@ -31,8 +31,8 @@ const (
 	scopeDriveReadOnly = "https://www.googleapis.com/auth/drive.readonly"
 
 	// program credentials for installed apps
-	googClient = "183908478743-e8rth9fbo7juk9eeivgp23asnt791g63.apps.googleusercontent.com"
-	googSecret = "ljELuf5jUrzcOxZGL7OQfkIC"
+	googClient = "89361264796-nuodgreif584a387tbtg0ljh3v1tmgpd.apps.googleusercontent.com"
+	googSecret = "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"
 
 	// token providers
 	ProviderGoogle = "goog"
@@ -43,7 +43,7 @@ var (
 		ClientID:     googClient,
 		ClientSecret: googSecret,
 		Scopes:       []string{scopeDriveReadOnly},
-		RedirectURL:  "urn:ietf:wg:oauth:2.0:oob",
+		RedirectURL:  "https://www.codelabs.cn/",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://accounts.google.com/o/oauth2/auth",
 			TokenURL: "https://accounts.google.com/o/oauth2/token",
