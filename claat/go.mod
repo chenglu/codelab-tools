@@ -7,6 +7,6 @@ require (
 	github.com/stoewer/go-strcase v1.2.0
 	github.com/x1ddos/csslex v0.0.0-20160125172232-7894d8ab8bfe
 	github.com/yuin/goldmark v1.4.13
-	golang.org/x/net v0.1.0
+	golang.org/x/net v0.7.0
 	golang.org/x/oauth2 v0.1.0
 )
