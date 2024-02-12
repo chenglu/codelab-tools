@@ -44,7 +44,7 @@ var (
 		ClientID:     googClient,
 		ClientSecret: googSecret,
 		Scopes:       []string{scopeDriveReadOnly},
-		RedirectURL:  "https://www.codelabs.cn/",
+		RedirectURL:  "https://www.codelabs.cn/claat/oauth2callbackCode/",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://accounts.google.com/o/oauth2/auth",
 			TokenURL: "https://accounts.google.com/o/oauth2/token",
@@ -235,9 +235,10 @@ func (c *cachedTokenSource) Token() (*oauth2.Token, error) {
 // authorize performs user authorization flow, asking for permissions grant.
 func authorize(conf *oauth2.Config) (*oauth2.Token, error) {
 	aURL := conf.AuthCodeURL("unused", oauth2.AccessTypeOffline)
-	fmt.Printf("Authorize me at following URL, please:\n\n%s\n", aURL)
-	code, err := startWebServer()
-	if err != nil {
+	fmt.Printf("Authorize me at following URL, type the code:\n\n%s\n", aURL)
+	// code, err := startWebServer()
+	var code string
+	if _, err := fmt.Scan(&code); err != nil {
 		return nil, err
 	}
 	return conf.Exchange(context.Background(), code)
