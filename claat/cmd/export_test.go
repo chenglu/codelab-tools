@@ -109,6 +109,86 @@ func TestExportCodelabMemory(t *testing.T) {
 	}
 }
 
+func TestExportCodelabToMarkdown(t *testing.T) {
+	/*
+		Test Plan: Ensure ExportCodelabToMarkdown can generate the expected markdown
+		output on valid cases.
+	*/
+	tests := []struct {
+		name     string
+		filePath string
+	}{
+		{
+			name:     "Multiple Steps",
+			filePath: "testdata/simple-2-steps.md",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			tmp, err := ioutil.TempDir("", "TestExportCodelabToMarkdown-*")
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			defer os.RemoveAll(tmp)
+
+			opts := cmd.CmdExportOptions{
+				Expenv:   "web",
+				Output:   tmp,
+				Tmplout:  "md",
+				GlobalGA: "UA-99999999-99",
+			}
+
+			// Given the same markdown input, ExportCodelabToMarkdown should have the expected output content
+			wantMeta, err := cmd.ExportCodelabToMarkdown(test.filePath, nil, opts)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			generatedFolder := path.Join(tmp, wantMeta.ID)
+			files, err := ioutil.ReadDir(generatedFolder)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			t.Logf("ExportCodelabToMarkdown generated files under %q", generatedFolder)
+			for _, f := range files {
+				t.Logf("Name: %s, IsDir: %v, Size: %d", f.Name(), f.IsDir(), f.Size())
+			}
+
+			wantBytes, err := ioutil.ReadFile(path.Join(tmp, wantMeta.ID, "index.md"))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			gotBytes := bytes.NewBuffer([]byte{})
+			testFile, err := ioutil.ReadFile(test.filePath)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			testContent := ioutil.NopCloser(bytes.NewReader(testFile))
+			gotMeta, err := cmd.ExportCodelabMemory(testContent, gotBytes, opts)
+			if err != nil {
+				t.Errorf("ExportCodelabMemory got error %q, want nil", err)
+			}
+
+			// Because the In-Memory codelab doesn't have the source, when comparing, we remove Source
+			wantMeta.Source = ""
+			if !reflect.DeepEqual(wantMeta, gotMeta) {
+				t.Errorf("ExportCodelabMemory returns metadata:\n%+v\nwant:\n%+v\n", gotMeta, wantMeta)
+			}
+
+			wantContent := filterIgnoredLinePrefix(string(wantBytes))
+			gotContent := filterIgnoredLinePrefix(string(gotBytes.Bytes()))
+			if diff := cmp.Diff(wantContent, gotContent); diff != "" {
+				t.Errorf("ExportCodelabMemory returns diff: %s", diff)
+			}
+		})
+	}
+}
+
 func filterIgnoredLinePrefix(content string) string {
 	// ignoredLinePrefix is used because
 	// 1. InMemory Export method doesn't have a file to begin with
@@ -138,3 +218,4 @@ func filterIgnoredLinePrefix(content string) string {
 
 	return strings.Join(processedContent, "\n")
 }
+
