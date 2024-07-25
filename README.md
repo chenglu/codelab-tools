@@ -184,17 +184,3 @@ Alex Vaghin, Marc Cohen, Shawn Simister, Ewa Gasperowicz, Eric Bidelman, Robert 
 ## Notes
 
 This is not an official Google product.
-
-## How to use the new web interface
-
-1. Start the web interface by running the following command:
-
-        $ claat web
-
-2. Open your web browser and navigate to `http://localhost:8080`.
-
-3. Enter the Google Docs URL you want to convert to markdown in the input field.
-
-4. Click the "Convert" button.
-
-5. The converted markdown file will be downloaded automatically.

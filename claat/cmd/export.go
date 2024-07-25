@@ -1,3 +1,17 @@
+// Copyright 2016-2019 Google LLC. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package cmd
 
 import (
@@ -130,40 +144,7 @@ func ExportCodelabMemory(src io.ReadCloser, w io.Writer, opts CmdExportOptions) 
 		Updated: &lastmod,
 	}
 
-	if opts.Tmplout == "md" {
-		return meta, render.WriteMD(w, opts.Expenv, opts.Tmplout, clab.Steps...)
-	}
-
 	return meta, writeCodelabWriter(w, clab.Codelab, opts.ExtraVars, ctx)
-}
-
-func ExportCodelabToMarkdown(src string, rt http.RoundTripper, opts CmdExportOptions) (*types.Meta, error) {
-	f, err := fetch.NewFetcher(opts.AuthToken, opts.PassMetadata, rt)
-	if err != nil {
-		return nil, err
-	}
-	clab, err := f.SlurpCodelab(src, opts.Output)
-	if err != nil {
-		return nil, err
-	}
-
-	// codelab export context
-	lastmod := types.ContextTime(clab.Mod)
-	clab.Meta.Source = src
-	meta := &clab.Meta
-
-	dir := opts.Output // output dir or stdout
-	if !isStdout(dir) {
-		dir = codelabDir(dir, meta)
-	}
-	// write codelab and its metadata to disk
-	return meta, writeCodelab(dir, clab.Codelab, opts.ExtraVars, &types.Context{
-		Env:     opts.Expenv,
-		Format:  "md",
-		Prefix:  opts.Prefix,
-		MainGA:  opts.GlobalGA,
-		Updated: &lastmod,
-	})
 }
 
 func writeCodelabWriter(w io.Writer, clab *types.Codelab, extraVars map[string]string, ctx *types.Context) error {
