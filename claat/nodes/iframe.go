@@ -25,6 +25,7 @@ var IframeAllowlist = []string{
 	"angular.cn",
 	"codelabs.cn",
 	"google.cn",
+	"ipynb.cn",
 }
 
 // NewIframeNode creates a new embedded iframe.
