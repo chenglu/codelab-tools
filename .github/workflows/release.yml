@@ -1,0 +1,83 @@
+name: Release CLAAT
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: "!contains(github.event.head_commit.message, '[skip release]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: claat/go.mod
+
+      - name: Bump version
+        id: bump
+        run: scripts/bump_version.sh
+
+      - name: Commit version bump
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add claat/VERSION
+          if git diff --cached --quiet; then
+            echo "No version change detected; exiting." >&2
+            exit 1
+          fi
+          git commit -m "chore: bump claat to v${VERSION} [skip release]"
+          git push origin HEAD:${BRANCH}
+
+      - name: Build release artifacts
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for os in linux darwin; do
+            bin="claat-${os}-amd64"
+            CGO_ENABLED=0 GOOS=${os} GOARCH=amd64 go build -o "dist/${bin}" ./claat
+            tar -czf "dist/${bin}-v${VERSION}.tar.gz" -C dist "${bin}"
+            rm "dist/${bin}"
+          done
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/claat-windows-amd64.exe ./claat
+          (cd dist && zip -q "claat-windows-amd64-v${VERSION}.zip" claat-windows-amd64.exe)
+          rm dist/claat-windows-amd64.exe
+          sha256sum dist/* > dist/SHA256SUMS.txt
+
+      - name: Create tag
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          set -euo pipefail
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+          git push origin "v${VERSION}"
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump.outputs.version }}
+          name: CLAAT v${{ steps.bump.outputs.version }}
+          body: |
+            Automated release for commit ${{ github.sha }}.
+          files: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
