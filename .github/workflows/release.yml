@@ -12,6 +12,8 @@ jobs:
   release:
     if: "!contains(github.event.head_commit.message, '[skip release]')"
     runs-on: ubuntu-latest
+    env:
+      GOTOOLCHAIN: auto
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,27 +23,18 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: claat/go.mod
+          go-version: '1.22.x'
+          cache-dependency-path: claat/go.sum
+
+      - name: Verify build
+        run: |
+          set -euo pipefail
+          cd claat
+          go build ./...
 
       - name: Bump version
         id: bump
         run: scripts/bump_version.sh
-
-      - name: Commit version bump
-        env:
-          VERSION: ${{ steps.bump.outputs.version }}
-          BRANCH: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-          git add claat/VERSION
-          if git diff --cached --quiet; then
-            echo "No version change detected; exiting." >&2
-            exit 1
-          fi
-          git commit -m "chore: bump claat to v${VERSION} [skip release]"
-          git push origin HEAD:${BRANCH}
 
       - name: Build release artifacts
         env:
@@ -59,6 +52,22 @@ jobs:
           (cd dist && zip -q "claat-windows-amd64-v${VERSION}.zip" claat-windows-amd64.exe)
           rm dist/claat-windows-amd64.exe
           sha256sum dist/* > dist/SHA256SUMS.txt
+
+      - name: Commit version bump
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add claat/VERSION
+          if git diff --cached --quiet; then
+            echo "No version change detected; exiting." >&2
+            exit 1
+          fi
+          git commit -m "chore: bump claat to v${VERSION} [skip release]"
+          git push origin HEAD:${BRANCH}
 
       - name: Create tag
         env:
