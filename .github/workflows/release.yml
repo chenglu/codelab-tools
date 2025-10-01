@@ -51,11 +51,11 @@ jobs:
           mkdir -p dist
           for os in linux darwin; do
             bin="claat-${os}-amd64"
-            CGO_ENABLED=0 GOOS=${os} GOARCH=amd64 go build -o "dist/${bin}" ./claat
+            (cd claat && CGO_ENABLED=0 GOOS=${os} GOARCH=amd64 go build -o "../dist/${bin}" ./)
             tar -czf "dist/${bin}-v${VERSION}.tar.gz" -C dist "${bin}"
             rm "dist/${bin}"
           done
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/claat-windows-amd64.exe ./claat
+          (cd claat && CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ../dist/claat-windows-amd64.exe ./)
           (cd dist && zip -q "claat-windows-amd64-v${VERSION}.zip" claat-windows-amd64.exe)
           rm dist/claat-windows-amd64.exe
           sha256sum dist/* > dist/SHA256SUMS.txt
