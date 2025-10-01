@@ -236,7 +236,7 @@ func renderToHTML(b []byte) ([]byte, error) {
 	gmParser := goldmark.New(goldmark.WithRendererOptions(gmhtml.WithUnsafe()), goldmark.WithExtensions(extension.Typographer, extension.Table))
 	var out bytes.Buffer
 	if err := gmParser.Convert(b, &out); err != nil {
-		panic(err)
+		return nil, fmt.Errorf("render markdown: %w", err)
 	}
 	return out.Bytes(), nil
 }
