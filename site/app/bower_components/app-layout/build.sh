@@ -1,22 +1,67 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 
-#git checkout master
-#git pull
-#git checkout gh-pages
-#git reset --hard master
-#git push -f
+set -euo pipefail
 
-a=`find . -name "docs.html" -or -name "index.html" -not -path "*/test/*"`
-b=`find . -name "*.html" ! -name 'sample-content.html' -path "*/demo/*"`
+# Always operate relative to the directory that contains this script so that
+# callers can run it from anywhere in the repository.
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}"
 
-c=(`for R in "${a[@]}" "${b[@]}" ; do echo "$R" ; done | sort -du`)
+if ! command -v vulcanize >/dev/null 2>&1; then
+  echo "Error: 'vulcanize' command is not available on PATH." >&2
+  exit 1
+fi
 
-for f in ${c[@]}; do
-  echo "vulcanize " $f
-  vulcanize --inline-css --inline-scripts $f > $f.build
-  mv $f.build $f
+# Collect all HTML files that we want to process using null-delimited output
+# from find to safely handle spaces or special characters.
+mapfile -d '' -t docs_and_index < <(
+  find . \( -name 'docs.html' -o -name 'index.html' \) \
+    -not -path '*/test/*' -print0
+)
+mapfile -d '' -t demo_html < <(
+  find . -path '*/demo/*' -name '*.html' \
+    ! -name 'sample-content.html' -print0
+)
+
+declare -A seen=()
+targets=()
+for file in "${docs_and_index[@]}" "${demo_html[@]}"; do
+  key="$file"
+  [[ -z "$key" ]] && continue
+  if [[ -n ${seen["$key"]+set} ]]; then
+    continue
+  fi
+  seen["$key"]=1
+  targets+=("$key")
 done
 
-#git commit -a -m "build"
-#git push
+if ((${#targets[@]} == 0)); then
+  echo "No HTML files found to vulcanize." >&2
+  exit 0
+fi
+
+IFS=$'\n' read -r -d '' -a targets < <(printf '%s\n' "${targets[@]}" | sort && printf '\0')
+unset IFS
+
+tmp_files=()
+cleanup() {
+  if ((${#tmp_files[@]} > 0)); then
+    rm -f "${tmp_files[@]}"
+  fi
+}
+trap cleanup EXIT
+
+for file in "${targets[@]}"; do
+  printf 'vulcanize %s\n' "${file}"
+  dir="$(dirname "${file}")"
+  base="$(basename "${file}")"
+  tmp_file="$(mktemp "${dir}/${base}.XXXXXX.build")"
+  tmp_files+=("${tmp_file}")
+
+  if ! vulcanize --inline-css --inline-scripts "${file}" > "${tmp_file}"; then
+    echo "Failed to vulcanize ${file}" >&2
+    exit 1
+  fi
+
+  mv "${tmp_file}" "${file}"
+done
