@@ -34,7 +34,7 @@ Duration: 0:04:00
 
 In order to create a CodeLab you need *Go* and *claat* (the codelabs command line tool) installed.
 
-The instructions below are what worked for me on Mac, but you can also find instructions [here](https://github.com/codelabs-cn/codelab-tools/tree/master/claat) 
+The instructions below are what worked for me on Mac, but you can also find instructions [here](https://github.com/chenglu/codelab-tools/tree/master/claat) 
 
 #### Install Go 
 
@@ -57,7 +57,7 @@ $ export PATH=$PATH:$GOROOT/bin
 #### Install claat
 Install claat
 ``` bash
-$ go get -u -v -x github.com/codelabs-cn/codelab-tools/claat
+$ go get -u -v -x github.com/chenglu/codelab-tools/claat
 ```
 
 You should now have the *claat* command available to you. 
@@ -185,7 +185,7 @@ Adding an image!
 ![https://codepen.io/tzoght/embed/yRNZaP](https://en.wikipedia.org/wiki/File:Example.jpg "Try Me Publisher")
 ```
 
-More Markdown Parser examples can be found [here](https://github.com/codelabs-cn/codelab-tools/tree/master/claat/parser/md).
+More Markdown Parser examples can be found [here](https://github.com/chenglu/codelab-tools/tree/master/claat/parser/md).
 
 ## Export and Serve
 Duration: 0:02:00
@@ -216,4 +216,4 @@ Now that you have the static content you can host it however you want.
 One option is pushing it to github and serving it up from Netlify.  
 
 If you'd like to create your own landing page for codelabs, [like this one](https://codelabs.developers.google.com), there is a tool to do that as well! 
-Check it out here: [CodeLabs Site](https://github.com/codelabs-cn/codelab-tools/blob/master/site/README.md)
+Check it out here: [CodeLabs Site](https://github.com/chenglu/codelab-tools/blob/master/site/README.md)

@@ -26,9 +26,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codelabs-cn/codelab-tools/claat/fetch"
-	"github.com/codelabs-cn/codelab-tools/claat/types"
-	"github.com/codelabs-cn/codelab-tools/claat/util"
+	"github.com/chenglu/codelab-tools/claat/fetch"
+	"github.com/chenglu/codelab-tools/claat/types"
+	"github.com/chenglu/codelab-tools/claat/util"
 )
 
 // Options type to make the CmdUpdate signature succinct.

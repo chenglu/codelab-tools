@@ -18,7 +18,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/codelabs-cn/codelab-tools/claat/nodes"
+	"github.com/chenglu/codelab-tools/claat/nodes"
 )
 
 // blockSquashable returns true if a node of type t can be squash in a block.
