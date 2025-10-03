@@ -17,5 +17,5 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.28.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 )
