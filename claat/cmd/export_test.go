@@ -25,7 +25,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/codelabs-cn/codelab-tools/claat/cmd"
+	"github.com/chenglu/codelab-tools/claat/cmd"
 )
 
 func TestExportCodelabMemory(t *testing.T) {
@@ -116,7 +116,7 @@ func filterIgnoredLinePrefix(content string) string {
 	ignoredLinePrefix := []string{
 		"<meta name=\"original_source\" content=\"",
 		"doc-id=\"",
-		"last-updated=\"", // https://github.com/codelabs-cn/codelab-tools/issues/395
+		"last-updated=\"", // https://github.com/chenglu/codelab-tools/issues/395
 	}
 
 	lines := strings.Split(content, "\n")

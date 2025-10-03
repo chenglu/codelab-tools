@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/codelabs-cn/codelab-tools/claat/nodes"
+	"github.com/chenglu/codelab-tools/claat/nodes"
 )
 
 func TestHTMLEnv(t *testing.T) {

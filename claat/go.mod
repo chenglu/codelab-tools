@@ -1,4 +1,4 @@
-module github.com/codelabs-cn/codelab-tools/claat
+module github.com/chenglu/codelab-tools/claat
 
 go 1.23.0
 
